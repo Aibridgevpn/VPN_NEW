@@ -1,9 +1,11 @@
 import sqlite3
 
+load_dotenv()
+DATABASE=os.getenv("DATABASE")
 
 def update_date_close_batch(telegram_ids, new_date_close='2030-07-09'):
 
-    conn = sqlite3.connect("database.db")
+    conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
     try:
