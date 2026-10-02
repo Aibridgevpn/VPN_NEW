@@ -26,7 +26,7 @@ vpn_headers = {
     "Authorization": f"Bearer {TOKEN_API}",
     "Content-Type": "application/json"
 }
-#bot = Bot(token=TOKEN)
+bot = Bot(token=TOKEN)
 
 dp = Dispatcher()
 http_session: aiohttp.ClientSession | None = None
@@ -566,9 +566,9 @@ async def days_handler(callback: CallbackQuery):
 async def main():
     global http_session
     # Создаем сессию с прокси
-    session = AiohttpSession(proxy=PROXY_URL)
+    #session = AiohttpSession(proxy=PROXY_URL)
     # Создаем бота с этой сессией
-    bot = Bot(token=TOKEN, session=session)
+    #bot = Bot(token=TOKEN, session=session)
 
     http_session = aiohttp.ClientSession(
         timeout=aiohttp.ClientTimeout(total=20)
