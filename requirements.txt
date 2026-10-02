@@ -1,0 +1,5 @@
+aiogram
+python-telegram-bot
+aiohttp
+requests
+python-dotenv
