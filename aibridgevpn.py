@@ -21,12 +21,14 @@ PROXY_URL = os.getenv("PROXY_URL")
 API_URL = os.getenv("API_URL")
 TOKEN_API = os.getenv("TOKEN_API")
 DATABASE=os.getenv("DATABASE")
+
+PATH_FOR_CHANGE_REGION=os.getenv("PATH_FOR_CHANGE_REGION")
 TOKEN = os.getenv("TOKEN")
 vpn_headers = {
     "Authorization": f"Bearer {TOKEN_API}",
     "Content-Type": "application/json"
 }
-bot = Bot(token=TOKEN)
+#bot = Bot(token=TOKEN)
 
 dp = Dispatcher()
 http_session: aiohttp.ClientSession | None = None
@@ -481,7 +483,7 @@ async def ios_instruction(callback: CallbackQuery):
         pass
     text = (
         "🍎 Инструкция для iPhone \\/ iPad\n\n"
-        "1\\. Установите Hiddify из [App Store](https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532)\\.\nЕсли приложение не доступно в вашем регионе, необходимо [изменить](https://modern-snap-nmjz.pagedrop.io/) регион\\.\n"
+        f"1\\. Установите Hiddify из [App Store](https://apps.apple.com/us/app/hiddify-proxy-vpn/id6596777532)\\.\nЕсли приложение не доступно в вашем регионе, необходимо [изменить]({PATH_FOR_CHANGE_REGION}) регион\\.\n"
         "2\\. Вернитеть в телеграм бот, нажмите кнопку «🌐 Ссылка для подключения 🌐» и скопируйте ссылку\\(всё сообщение\\)\\.\n"
         "3\\. Откройте Hiddify\\.\n"
         "4\\. Нажмите «\\+» в верхнем правом углу программы\\.\n"
@@ -566,9 +568,9 @@ async def days_handler(callback: CallbackQuery):
 async def main():
     global http_session
     # Создаем сессию с прокси
-    #session = AiohttpSession(proxy=PROXY_URL)
+    session = AiohttpSession(proxy=PROXY_URL)
     # Создаем бота с этой сессией
-    #bot = Bot(token=TOKEN, session=session)
+    bot = Bot(token=TOKEN, session=session)
 
     http_session = aiohttp.ClientSession(
         timeout=aiohttp.ClientTimeout(total=20)
