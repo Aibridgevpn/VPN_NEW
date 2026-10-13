@@ -36,8 +36,8 @@ logging.basicConfig(
     ]
 )
 
-async def update_vpn_user(email, uuid):
-    """Обновление пользователя в VPN"""
+async def update_vpn_user(session: aiohttp.ClientSession, email: str, uuid: str) -> bool:
+    """Отключает пользователя в VPN-панели. Возвращает True при успехе."""
     client_payload = {
         "email": email,
         "totalGB": 32212254720,  # 30 ГБ
@@ -46,37 +46,34 @@ async def update_vpn_user(email, uuid):
         "Id": uuid,
         "tgId": 0,
         "limitIp": 1,
-        "enable": False
+        "enable": False,
     }
 
-    try:
-        http_session = aiohttp.ClientSession(
-            timeout=aiohttp.ClientTimeout(total=20)
-        )
+    url = f"{API_URL}/panel/api/clients/update/{email}"
 
-        async with http_session.post(
-            f"{API_URL}/panel/api/clients/update/{email}",
-            headers=headers,
-            data=json.dumps(client_payload)
-        ) as response:
-            response.raise_for_status()
-            logging.info(f"Пользователь {email} (ID: {uuid}) отключен в VPN")
+    try:
+        async with session.post(url, headers=headers, json=client_payload) as response:
+            body = await response.text()
+
+            if response.status >= 400:
+                logging.error(
+                    f"Ошибка API для {email} (ID: {uuid}): "
+                    f"HTTP {response.status}, ответ: {body[:500]}"
+                )
+                return False
+
+            logging.info(f"Пользователь {email} (ID: {uuid}) отключён в VPN")
             return True
 
+    except aiohttp.ClientError as e:
+        logging.error(f"Сетевая ошибка для {email}: {e}")
+        return False
+    except asyncio.TimeoutError:
+        logging.error(f"Таймаут при запросе к API для {email}")
+        return False
     except Exception as e:
-        logging.error(f"Неизвестная ошибка для {email}: {e}")
-        return False, str(e)
-    finally:
-        await http_session.close()
-
-def get_day_word(number):
-    """Возвращает слово 'день' с правильным окончанием"""
-    if number % 10 == 1 and number % 100 != 11:
-        return f"{number} день"
-    elif 2 <= number % 10 <= 4 and (number % 100 < 10 or number % 100 >= 20):
-        return f"{number} дня"
-    else:
-        return f"{number} дней"
+        logging.error(f"Неизвестная ошибка для {email}: {e}", exc_info=True)
+        return False
 async def main():
     """Основная функция."""
     logging.info("=" * 50)
@@ -149,7 +146,6 @@ async def main():
                             "WHERE telegram_id = ?",
                             (telegram_id,),
                         )
-                        conn.commit()
                         success_count += 1
                         logging.info(f"Пользователь {email} успешно отключён")
 
@@ -177,7 +173,7 @@ async def main():
                         notify_fail_count += 1
 
         # Сохраняем изменения
-        #conn.commit()
+        conn.commit()
         logging.info(
             f"Итог: успешно - {success_count}, "
             f"ошибок отключения - {fail_count}, "
