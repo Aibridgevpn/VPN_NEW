@@ -1,8 +1,7 @@
 import sqlite3
-import json
+
 import logging
 import sys
-import time
 from datetime import datetime, date
 import aiohttp
 from pathlib import Path
@@ -24,10 +23,7 @@ TOKEN_BOT = os.getenv("TOKEN")
 API_URL = os.getenv("API_URL")
 TOKEN_API = os.getenv("TOKEN_API")
 
-headers = {
-    "Authorization": f"Bearer {TOKEN_API}",
-    "Content-Type": "application/json"
-}
+headers = {"Authorization": f"Bearer {TOKEN_API}"}
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
