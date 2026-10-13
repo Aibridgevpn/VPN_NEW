@@ -9,6 +9,7 @@ from pathlib import Path
 import asyncio
 from telegram import Bot
 from dotenv import load_dotenv
+from telegram.error import TelegramError
 import os
 
 # Настройка логирования
@@ -146,6 +147,7 @@ async def main():
                             "WHERE telegram_id = ?",
                             (telegram_id,),
                         )
+                        conn.commit()
                         success_count += 1
                         logging.info(f"Пользователь {email} успешно отключён")
 
@@ -173,7 +175,7 @@ async def main():
                         notify_fail_count += 1
 
         # Сохраняем изменения
-        conn.commit()
+        #conn.commit()
         logging.info(
             f"Итог: успешно - {success_count}, "
             f"ошибок отключения - {fail_count}, "
