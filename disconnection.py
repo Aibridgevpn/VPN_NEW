@@ -10,10 +10,11 @@ import asyncio
 from telegram import Bot
 from dotenv import load_dotenv
 import os
-load_dotenv()
+
 # Настройка логирования
 
 BASE_DIR = Path(__file__).resolve().parent
+load_dotenv(BASE_DIR / ".env")
 DATABASE = BASE_DIR / os.getenv("DATABASE")
 LOG_FILE = BASE_DIR / "disconnection.log"
 
