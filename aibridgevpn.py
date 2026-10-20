@@ -17,6 +17,7 @@ load_dotenv()
 MERCHANT_ID=os.getenv("MERCHANT_ID")
 API_SECRET=os.getenv("API_SECRET")
 PROXY_URL = os.getenv("PROXY_URL")
+EMAIL_NAME = os.getenv("EMAIL_NAME")
 
 API_URL = os.getenv("API_URL")
 TOKEN_API = os.getenv("TOKEN_API")
@@ -51,7 +52,7 @@ async def create_user(telegram_id):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        email = f"bridge{telegram_id}"
+        email = f"{EMAIL_NAME}{telegram_id}"
         UUID = str(uuid.uuid4())
         #connect = f"vless://{UUID}@31.76.13.238:443?encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=o_wUd8jghEqMWu45MJY9mRocIBT6QIkNiGvwN9_B0SI&pqv=OP2snwtH2Udt7IShGkfRaZ6L494k5XODla1coB_-kK9DEv0tBuysrWRjV8DMg-GhHvDxVXI4dgqZ7ry18-Ga_uMX8pk2LhzIVZL_7Y6pSB4kSvrS7RgcaMhfBWU5-EQ758gGLiIClY_RWX3JQmAJlMv8bNqFjGyu-1qaCl5bUzfrxRpPmkEeO3rtpDqstmPMBhwLSq0J6MvoRx9yj4CCNlP-vfWCBV9w4oYQyqT6ghMk6NKSCRp7UMkVgjIo4k2H7Lcdf9LFfOWyfQl9DwGtdUS7hEQ-yUYkOqr7GsbvUHNoPIhEAGgQ4SfARs6HfJvqMkdp9dUWTmyqhm07GOdNE9s9UHr8qEJ9L2wKMwUAJDoY8hZFs7VlLgnAU66hFX-Qhc3DmJfYYmod29y0sIJuZwS1eNNl-zthyQHuuoDSS09FDLzRmxFNopJlWywYaQeHXLY2Z6s2cF8jQfU2mcCfHvHgeLXLi4rqEiAwOT_U1WhMlWHt_OJDMx0szFecLODXHluGcAxiteInvLrr9zXGF3m-Wo0wlnuUKqJkEPJwgCIoqDA4xaPhufWTrrNOcF09PsSx4t_aLDLxfyFGa5QzSywzibOjRRU3blX7NDGZH2NqdYu3N3y7KN3FJH19mg24ezECB6fcxakAH2mVLEqp7bT05c6S9aQufGs2EYiy7M67n1NUrh6mwstn3FMBfppG7OUTtm9YJI9ccZ0BrXRDy1ldNk5cOVFDN9ZAFO45pRkJjaI2CJsRlG_8-jMtlasvRpRJsG7zdVen2-PWO8ErUUuCK3eDLXhQj7AqzPQkHPSYmnyEXkY-9l_5rdioHPsyGsMRc8lksMvuIwmuRme-AwcHCLsKz-TmCtfEGdv4iQGP-F6xxoUmBlH_QNnUFLQSX9wcriIncJxngRYKJm9a4OINpJbC8no5L9Mfv2dFSMWN22QcSFui4HHmGKO5lrLBqKT42jnEABcGHePJ_mDSXdtiE_SGCEYEgFRxXmildOavVvHvqfadyYtDW2QPs5jY7DwKTtHXXV3M-eBhnWZ5vv5WsrYSw936k7u-Hg23p57pkjt4OvSWE3zjdI3192u0WYlxYu2rZrV5qdHWj4OahxX8w1nfAZeAzqjqkIFfbLVtyH6xkngvS-8enenmfj5LapMZKZq8aGe2Yw1b6VnTAR-fFzEYsZvhkS82Xcluzlcv3XYfOPPMDZDM4Ah83yjdNVqjSadceYa6DK3lxAs3YXN49oLUDalHp9gLTGViEdmQzwooIGwMzgd1gqiWX3HSvG3WmXj48x8qreDl5BmLOvSPpBrkubzF8gM1ABlWH9fHK2y1wDHMS5qNxF_Q2dKMREVfaoP_Htw819QqXTTUKCMH0kceJoKuNcTtk_qRLaPzifVM53f-S4z49qUYWtVKq9Enuw7gKON3Ch0WxThE5rIb23ynqEOgiD_49nbGrDxCTmiVumJ7rhm8ne4C36RKwfnkuPNlnyon5C1lOe-AVxNri31Vo-Y4nkpTn8p6jyFrM9lNohG4Nz88LQDVtZBALxtoD-GLHHF9ZeKDzSATq25aQ4IjpkWwC1Q-mdGHAT61w2BE39eSeJMeyNeVTo9YuPkWkmlc8lkUH0XgxF-SW099lkPunALM5oXBTPePUNnzO_XTMOpKdvC-AaAbGAd76Cj8iwyBOrCOr8EbdvZ4NbmirfMXjA7dp3cxZh9NZv3QJQcPtXSNfQzuxDOvhgWm97KiyE4kZw_SXITYqgvzIROVKhwVAofrtXgaIj1IZu4khWRWoQi6RGBFhOYTm5RuOe7ANvdB02NbZ3amc5KI6A252UpQoo_4OVwt0eI30WzYZ_Rr7pjaMB04FzaWOeT7tUDKuapt4sgV3hYnX22b5L-I6yyT4kBTu4h2v-4ubq65AgWskf-I9zmDW1pujU0MlvFNpARFSEL-eNsskIH0lZ_4T_yBUEwlTSziOgKD8GddhQom9zbfYSaJbBS2dJCCrZU1usWJ5yK_OWLNGv86ZBlG1HpCOMlaTI6UDJ6yDLKHUiq63rCap_X3sjzo8VVebP248-2PexU0xGDvC2RdiBOpH_VSWqFVVraMYlX3ooD7F3pPPEa5McenElnGI0lI9kwU9npwiHSlxVf2V5KI_aXs6D8sxNYtB-wcMx6nU7NDewGTnH_y3_XdPH9LyRb0JT2Eia4QacJGZj6Z4j1CJNRIOaU4A-SQpgY0NjyFq1G2leLTcVe-dkQTKv-ojnYDA8ESvNfoEp6vPP1PFc2QdhVQxbte8MEXF5qWXOBG-n3nhFRHV9R1803pE1HaJa_XCyWA49gCLziKL4pZl6FvdF8dGBlRe4ykmdkhY9uQchAQuYknin-sdZRXwkOvcrfieKHGML1XwJElse0qUJ3G763uxR1Ct3f9N6S1spbLrXieFbYt2mjEL-Pu-9INiR195J6tttW0wTeIYUMVT_GuPtVCkSChdqTogEg_tg6o6ZQ8C-E0p0esZoX6IClMNqFLks5egaTvRmjV-4gYH5puXqo10debtTAM6MfkX-epF4umlyXsEB4H1dT32JQJsMBAwnIPXNoZl8bk7atZqbu8prB0pXyK10bJHZBQvCDV-Ok&security=reality&sid=afe794&sni=www.sony.com&spx=%2FxPpdnjCPHwbikhA&type=tcp#VPN-{email}"
         tomorrow = (
@@ -199,7 +200,7 @@ async def base_tarif(callback: CallbackQuery):
     try:
         payment_url, data = await create_payment(
             callback.from_user.id,
-            10,
+            150,
             32212254720)
 
         keyboard = InlineKeyboardMarkup(
@@ -236,7 +237,7 @@ async def all_tarif(callback: CallbackQuery):
 
         payment_url, data =await create_payment(
             callback.from_user.id,
-            15,
+            300,
             0
         )
 
