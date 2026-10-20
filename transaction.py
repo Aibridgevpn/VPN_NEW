@@ -14,7 +14,8 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent
 OWNER_ID=os.getenv("OWNER_ID")
-
+MERCHANT_ID=os.getenv("MERCHANT_ID")
+API_SECRET=os.getenv("API_SECRET")
 DATABASE = BASE_DIR / os.getenv("DATABASE")
 LOG_FILE = BASE_DIR / "transactions.log"
 
@@ -35,10 +36,15 @@ headers = {
     "Authorization": f"Bearer {TOKEN_API}",
     "Content-Type": "application/json"
 }
+platega_headers = {
+        "X-MerchantId": MERCHANT_ID,
+        "X-Secret": API_SECRET,
+        "Content-Type": "application/json"
+    }
 def check_payload(transactionId):
     response = requests.get(
         f"https://app.platega.io/transaction/{transactionId}",
-
+        headers=platega_headers,
         timeout=20
     )
     response.raise_for_status()
