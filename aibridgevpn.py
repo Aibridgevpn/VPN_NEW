@@ -370,7 +370,7 @@ async def connection_handler(callback: CallbackQuery):
             if not links:
                 connect="❌ Не удалось получить ссылку для подключения, попробуйте еще раз."
             else:
-                connect=f"{links[0]}_{email}"
+                connect=f"{links[0]}"
     except:
         connect = "❌ Не удалось получить ссылку для подключения, попробуйте еще раз."
     finally:
