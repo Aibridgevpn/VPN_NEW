@@ -78,7 +78,7 @@ async def create_user(telegram_id):
                 "enable": True
             },
             "inboundIds": [
-                1
+                5
             ]
         }
 
