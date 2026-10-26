@@ -76,7 +76,7 @@ async def main():
                 if not links:
                     connect = "❌ Не удалось получить ссылку для подключения, попробуйте еще раз."
                 else:
-                    connect = f"{links[0]}_{email}"
+                    connect = f"{links[0]}"
                     new_vless = replace_sni_simple(connect)
                     text="🚧🚧🚧ВНИМАНИЕ🚧🚧🚧\nДля обеспечения более устойчивой работы VPN, в ближайшее время будет перенастроен сервер.\n🛑 После того как VPN перестанет работать, удалите текущее подключение в приложении HIDDIFY и создайте новое по ссылке из сообщения 👇"
                     await bot.send_message(chat_id=telegram_id, text=text)
